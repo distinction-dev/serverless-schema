@@ -1,34 +1,24 @@
-# JSON Schema
+# TS Frontend Template
 
-[![Software License][ico-license]][link-license]
+> Template repository for us to use to create TS based frontend packages
 
-## Introduction
+## Install
 
-Collection of JSON schemas for use in command line validators, editors auto-completion, etc.
+```bash
+npm install @distinction-dev/serverless-schema
+```
 
-## List of schemas
+or
 
-- [Serverless Framework Reference](serverless/reference.json), [Official Docs](https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml), [Raw Link](https://raw.githubusercontent.com/lalcebo/json-schema/master/serverless/reference.json)
+```bash
+yarn add @distinction-dev/serverless-schema
+```
 
-## Editors Support
+## Usage
 
-- VsCode:- Using the [YAML](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml)
-    **Note:- Set `yaml.schemaStore.enable` to true in settings to pull**
-- IntelliJ:- Editors in the IntelliJ family
+```ts
+import { util1, util2 } from '@distinction-dev/serverless-schema';
 
-## About
+```
 
-I'll try to maintain this project as simple as possible, but Pull Requests are welcomed!
-
-## Building AWS resources
-
-This project uses Cloudformation as the source of truth and hence the definitions for individual functions is taken from Cloudformation and maintained into their individual definition files, see [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-type-schemas.html)
-It's absolutely necessary that these files be kept to up to date.
-
-## License
-
-The MIT License (MIT). Please see [License File][link-license] for more information.
-
-[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-
-[link-license]: LICENSE
+## Docs
