@@ -601,7 +601,6 @@
                   "$comment": "Literal string value",
                   "type": "string"
                 },
-        
                 {
                   "$ref": "#/definitions/FnBase64"
                 },
@@ -1076,11 +1075,7 @@
                 },
                 {
                   "type": "string",
-                  "enum": [
-                    "TOKEN",
-                    "COGNITO_USER_POOLS",
-                    "REQUEST"
-                  ]
+                  "enum": ["TOKEN", "COGNITO_USER_POOLS", "REQUEST"]
                 }
               ]
             }
@@ -5126,30 +5121,15 @@
               "properties": {
                 "AccessToken": {
                   "type": "string",
-                  "enum": [
-                    "days",
-                    "hours",
-                    "minutes",
-                    "seconds"
-                  ]
+                  "enum": ["days", "hours", "minutes", "seconds"]
                 },
                 "IdToken": {
                   "type": "string",
-                  "enum": [
-                    "days",
-                    "hours",
-                    "minutes",
-                    "seconds"
-                  ]
+                  "enum": ["days", "hours", "minutes", "seconds"]
                 },
                 "RefreshToken": {
                   "type": "string",
-                  "enum": [
-                    "days",
-                    "hours",
-                    "minutes",
-                    "seconds"
-                  ]
+                  "enum": ["days", "hours", "minutes", "seconds"]
                 }
               }
             },
@@ -5157,11 +5137,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "code",
-                  "implicit",
-                  "client_credentials"
-                ]
+                "enum": ["code", "implicit", "client_credentials"]
               },
               "maxLength": 3
             },
@@ -5259,10 +5235,7 @@
             "PreventUserExistenceErrors": {
               "description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html#cfn-cognito-userpoolclient-preventuserexistenceerrors",
               "type": "string",
-              "enum": [
-                "ENABLED",
-                "LEGACY"
-              ]
+              "enum": ["ENABLED", "LEGACY"]
             },
             "SupportedIdentityProviders": {
               "description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html#cfn-cognito-userpoolclient-supportedidentityproviders",
@@ -5306,10 +5279,7 @@
         },
         "Properties": {
           "type": "object",
-          "required": [
-            "Domain",
-            "UserPoolId"
-          ],
+          "required": ["Domain", "UserPoolId"],
           "additionalProperties": false,
           "properties": {
             "UserPoolId": {
@@ -5387,10 +5357,7 @@
               ]
             }
           },
-          "required": [
-            "ClientId",
-            "UserPoolId"
-          ]
+          "required": ["ClientId", "UserPoolId"]
         }
       }
     },
@@ -6557,9 +6524,7 @@
                   "type": "boolean"
                 }
               },
-              "required": [
-                "Enabled"
-              ]
+              "required": ["Enabled"]
             },
             "GlobalSecondaryIndexes": {
               "description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html#cfn-dynamodb-table-gsi",
@@ -6576,19 +6541,11 @@
               "properties": {
                 "InputCompressionType": {
                   "type": "string",
-                  "enum": [
-                    "GZIP",
-                    "NONE",
-                    "ZSTD"
-                  ]
+                  "enum": ["GZIP", "NONE", "ZSTD"]
                 },
                 "InputFormat": {
                   "type": "string",
-                  "enum": [
-                    "CSV",
-                    "DYNAMODB_JSON",
-                    "ION"
-                  ]
+                  "enum": ["CSV", "DYNAMODB_JSON", "ION"]
                 },
                 "InputFormatOptions": {
                   "description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-table-inputformatoptions.html",
@@ -6636,15 +6593,10 @@
                       "maxLength": 1024
                     }
                   },
-                  "required": [
-                    "S3Bucket"
-                  ]
+                  "required": ["S3Bucket"]
                 }
               },
-              "required": [
-                "InputFormat",
-                "S3BucketSource"
-              ]
+              "required": ["InputFormat", "S3BucketSource"]
             },
             "KeySchema": {
               "description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html#cfn-dynamodb-table-keyschema",
@@ -6665,9 +6617,7 @@
                   "maxLength": 1024
                 }
               },
-              "required": [
-                "StreamArn"
-              ]
+              "required": ["StreamArn"]
             },
             "LocalSecondaryIndexes": {
               "description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html#cfn-dynamodb-table-lsi",
@@ -24454,11 +24404,7 @@
             },
             {
               "type": "string",
-              "enum": [
-                "S",
-                "N",
-                "B"
-              ]
+              "enum": ["S", "N", "B"]
             }
           ]
         }
@@ -33792,13 +33738,7 @@
               },
               {
                 "type": "string",
-                "enum": [
-                  "GET",
-                  "PUT",
-                  "HEAD",
-                  "POST",
-                  "DELETE"
-                ]
+                "enum": ["GET", "PUT", "HEAD", "POST", "DELETE"]
               }
             ]
           },
@@ -36178,11 +36118,7 @@
                 "DeletionPolicy": {
                   "type": "string",
                   "description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html",
-                  "enum": [
-                    "Delete",
-                    "Retain",
-                    "Snapshot"
-                  ]
+                  "enum": ["Delete", "Retain", "Snapshot"]
                 }
               }
             },
@@ -38049,13 +37985,7 @@
         },
         "type": {
           "type": "string",
-          "enum": [
-            "request",
-            "token",
-            "COGNITO_USER_POOLS",
-            "REQUEST",
-            "TOKEN"
-          ]
+          "enum": ["request", "token", "COGNITO_USER_POOLS", "REQUEST", "TOKEN"]
         }
       },
       "type": "object"
@@ -38372,7 +38302,7 @@
           "type": "array",
           "items": {
             "type": "string"
-          }    
+          }
         },
         "managedExternally": {
           "description": "Optional. Applicable only when using externally defined authorizer functions to prevent creation of permission resource",
@@ -38683,233 +38613,230 @@
       ],
       "description": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
     },
-    "Aws.Provider": {
-      "properties": {
-        "alb": {
-          "$ref": "#/definitions/Aws.Alb"
-        },
-        "ecr": {
-          "type": "object",
-          "properties": {
-            "scanOnPush": {
-              "description": "Enabling this will make AWS scan image for CVE(Common Vulnerabilities and Exposures)",
-              "type": "boolean"
-            },
-            "images": {
-              "type": "object",
-              "additionalProperties": {
-                "oneOf": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "uri": {
-                        "description": "URI of an existing Docker image in ECR",
-                        "type": "string"
-                      }
-                    }
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "path": {
-                        "description": "Path to the Docker context that will be used when building that image locally (default: '.')",
-                        "type": "string"
-                      },
-                      "file": {
-                        "type": "string",
-                        "description": "Dockerfile that will be used when building the image locally (default: 'Dockerfile')"
-                      },
-                      "buildArgs": {
-                        "type": "object"
-                      },
-                      "cacheFrom": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        }
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "apiGateway": {
-          "$ref": "#/definitions/Aws.ApiGateway"
-        },
-        "apiKeys": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "apiName": {
-          "description": "Change this to use a custom name for the API Gateway API",
-          "type": "string"
-        },
-        "cfnRole": {
-          "type": "string"
-        },
-        "deploymentBucket": {
-          "$ref": "#/definitions/Aws.DeploymentBucket"
-        },
-        "deploymentPrefix": {
-          "type": "string"
-        },
-        "endpointType": {
-          "enum": ["EDGE", "PRIVATE", "REGIONAL"],
-          "type": "string"
-        },
-        "environment": {
-          "$ref": "#/definitions/Aws.Environment"
-        },
-        "httpApi": {
-          "$ref": "#/definitions/Aws.HttpApi"
-        },
-        "iamManagedPolicies": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "iamRoleStatements": {
-          "items": {
-            "$ref": "#/definitions/Aws.IamRoleStatement"
-          },
-          "type": "array"
-        },
-        "logRetentionInDays": {
-          "type": ["string", "number"]
-        },
-        "logs": {
-          "$ref": "#/definitions/Aws.Logs"
-        },
-        "memorySize": {
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "description": "Note: API Gateway has a maximum timeout of 30 seconds",
-              "type": "number",
-              "minimum": 128,
-              "maximum": 10240
-            }
-          ],
-          "type": ["string", "number"]
-        },
-        "name": {
-          "enum": ["aws"],
-          "type": "string"
-        },
-        "notificationArns": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "profile": {
-          "type": "string"
-        },
-        "region": {
-          "type": "string"
-        },
-        "reservedConcurrency": {
-          "type": ["string", "number"]
-        },
-        "resourcePolicy": {
-          "items": {
-            "$ref": "#/definitions/Aws.ResourcePolicy"
-          },
-          "type": "array"
-        },
-        "role": {
-          "type": "string"
-        },
-        "rolePermissionsBoundary": {
-          "type": "string"
-        },
-        "rollbackConfiguration": {
-          "$ref": "#/definitions/Aws.RollbackConfiguration"
-        },
-        "runtime": {
-          "$ref": "#/definitions/Aws.Runtime"
-        },
-        "stackName": {
-          "type": "string"
-        },
-        "stackParameters": {
-          "items": {
-            "$ref": "#/definitions/Aws.StackParameters"
-          },
-          "type": "array"
-        },
-        "stackPolicy": {
-          "items": {
-            "$ref": "#/definitions/Aws.ResourcePolicy"
-          },
-          "type": "array"
-        },
-        "stackTags": {
-          "$ref": "#/definitions/Aws.Tags"
-        },
-        "stage": {
-          "type": "string"
-        },
-        "tags": {
-          "$ref": "#/definitions/Aws.Tags"
-        },
-        "timeout": {
-          "type": ["string", "number"]
-        },
-        "tracing": {
-          "$ref": "#/definitions/Aws.Tracing"
-        },
-        "usagePlan": {
-          "$ref": "#/definitions/Aws.UsagePlan"
-        },
-        "versionFunctions": {
-          "description": "Use function versioning (enabled by default)",
-          "type": "boolean"
-        },
-        "architecture": {
-          "type": "string",
-          "enum": ["x86_64", "arm64"],
-          "description": "Processor architecture: 'x86_64' or 'arm64' via Graviton2 (default: x86_64)"
-        },
-        "vpc": {
-          "$ref": "#/definitions/Aws.Vpc"
-        },
-        "websocketsApiName": {
-          "type": "string"
-        },
-        "websocketsApiRouteSelectionExpression": {
-          "type": "string"
-        },
-        "websocketsDescription": {
-          "type": "string"
-        },
-        "deploymentMethod": {
-          "description": "Method used for CloudFormation deployments: 'changesets' or 'direct' (default: changesets). See https://www.serverless.com/framework/docs/providers/aws/guide/deploying#deployment-method",
-          "type": "string",
-          "enum": ["direct", "changesets"]
-        },
-        "disableRollback": {
-          "type": "boolean",
-          "description": "Disable automatic rollback by CloudFormation on failure. To be used for non-production environments."
-        },
-        "logDataProtectionPolicy": {
-          "$ref": "components/cloudwatch.json#/LogDataProtectionPolicy"
-        }
-      },
+    "AwsProvider": {
       "oneOf": [
         {
-          "type": "object"
-        },
-        {
-          "type": "string",
-          "minLength": 1
+          "type": "object",
+          "properties": {
+            "alb": {
+              "$ref": "#/definitions/Aws.Alb"
+            },
+            "ecr": {
+              "type": "object",
+              "properties": {
+                "scanOnPush": {
+                  "description": "Enabling this will make AWS scan image for CVE(Common Vulnerabilities and Exposures)",
+                  "type": "boolean"
+                },
+                "images": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "uri": {
+                            "description": "URI of an existing Docker image in ECR",
+                            "type": "string"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "path": {
+                            "description": "Path to the Docker context that will be used when building that image locally (default: '.')",
+                            "type": "string"
+                          },
+                          "file": {
+                            "type": "string",
+                            "description": "Dockerfile that will be used when building the image locally (default: 'Dockerfile')"
+                          },
+                          "buildArgs": {
+                            "type": "object"
+                          },
+                          "cacheFrom": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "apiGateway": {
+              "$ref": "#/definitions/Aws.ApiGateway"
+            },
+            "apiKeys": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "apiName": {
+              "description": "Change this to use a custom name for the API Gateway API",
+              "type": "string"
+            },
+            "cfnRole": {
+              "type": "string"
+            },
+            "deploymentBucket": {
+              "$ref": "#/definitions/Aws.DeploymentBucket"
+            },
+            "deploymentPrefix": {
+              "type": "string"
+            },
+            "endpointType": {
+              "enum": ["EDGE", "PRIVATE", "REGIONAL"],
+              "type": "string"
+            },
+            "environment": {
+              "$ref": "#/definitions/Aws.Environment"
+            },
+            "httpApi": {
+              "$ref": "#/definitions/Aws.HttpApi"
+            },
+            "iamManagedPolicies": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "iamRoleStatements": {
+              "items": {
+                "$ref": "#/definitions/Aws.IamRoleStatement"
+              },
+              "type": "array"
+            },
+            "logRetentionInDays": {
+              "type": ["string", "number"]
+            },
+            "logs": {
+              "$ref": "#/definitions/Aws.Logs"
+            },
+            "memorySize": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "description": "Note: API Gateway has a maximum timeout of 30 seconds",
+                  "type": "number",
+                  "minimum": 128,
+                  "maximum": 10240
+                }
+              ],
+              "type": ["string", "number"]
+            },
+            "name": {
+              "enum": ["aws"],
+              "type": "string"
+            },
+            "notificationArns": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "profile": {
+              "type": "string"
+            },
+            "region": {
+              "type": "string"
+            },
+            "reservedConcurrency": {
+              "type": ["string", "number"]
+            },
+            "resourcePolicy": {
+              "items": {
+                "$ref": "#/definitions/Aws.ResourcePolicy"
+              },
+              "type": "array"
+            },
+            "role": {
+              "type": "string"
+            },
+            "rolePermissionsBoundary": {
+              "type": "string"
+            },
+            "rollbackConfiguration": {
+              "$ref": "#/definitions/Aws.RollbackConfiguration"
+            },
+            "runtime": {
+              "$ref": "#/definitions/Aws.Runtime"
+            },
+            "stackName": {
+              "type": "string"
+            },
+            "stackParameters": {
+              "items": {
+                "$ref": "#/definitions/Aws.StackParameters"
+              },
+              "type": "array"
+            },
+            "stackPolicy": {
+              "items": {
+                "$ref": "#/definitions/Aws.ResourcePolicy"
+              },
+              "type": "array"
+            },
+            "stackTags": {
+              "$ref": "#/definitions/Aws.Tags"
+            },
+            "stage": {
+              "type": "string"
+            },
+            "tags": {
+              "$ref": "#/definitions/Aws.Tags"
+            },
+            "timeout": {
+              "type": ["string", "number"]
+            },
+            "tracing": {
+              "$ref": "#/definitions/Aws.Tracing"
+            },
+            "usagePlan": {
+              "$ref": "#/definitions/Aws.UsagePlan"
+            },
+            "versionFunctions": {
+              "description": "Use function versioning (enabled by default)",
+              "type": "boolean"
+            },
+            "architecture": {
+              "type": "string",
+              "enum": ["x86_64", "arm64"],
+              "description": "Processor architecture: 'x86_64' or 'arm64' via Graviton2 (default: x86_64)"
+            },
+            "vpc": {
+              "$ref": "#/definitions/Aws.Vpc"
+            },
+            "websocketsApiName": {
+              "type": "string"
+            },
+            "websocketsApiRouteSelectionExpression": {
+              "type": "string"
+            },
+            "websocketsDescription": {
+              "type": "string"
+            },
+            "deploymentMethod": {
+              "description": "Method used for CloudFormation deployments: 'changesets' or 'direct' (default: changesets). See https://www.serverless.com/framework/docs/providers/aws/guide/deploying#deployment-method",
+              "type": "string",
+              "enum": ["direct", "changesets"]
+            },
+            "disableRollback": {
+              "type": "boolean",
+              "description": "Disable automatic rollback by CloudFormation on failure. To be used for non-production environments."
+            },
+            "logDataProtectionPolicy": {
+              "$ref": "components/cloudwatch.json#/LogDataProtectionPolicy"
+            }
+          },
+          "required": ["name"]
         }
       ]
     },
@@ -39157,7 +39084,8 @@
       },
       "type": "object"
     },
-    "Aws.Service": {
+    "AwsService": {
+      "description": "**Deprecated and doesn't work in serverless framework v3**",
       "properties": {
         "awsKmsKeyArn": {
           "type": "string"
@@ -39301,10 +39229,7 @@
         }
       },
       "type": "object",
-      "required": [
-        "securityGroupIds",
-        "subnetIds"
-      ]
+      "required": ["securityGroupIds", "subnetIds"]
     },
     "AwsWebsocket": {
       "properties": {
@@ -39428,11 +39353,7 @@
         "outputFileExtension": {
           "type": "string",
           "description": "The file extension used for the bundled output file. This will override the esbuild `outExtension` option",
-          "enum": [
-            ".js",
-            ".cjs",
-            ".mjs"
-          ]
+          "enum": [".js", ".cjs", ".mjs"]
         },
         "packagePath": {
           "type": "string",
@@ -39441,11 +39362,7 @@
         "packager": {
           "type": "string",
           "description": "Packager to use for external dependency resolution. Values: npm, yarn, pnpm",
-          "enum": [
-            "yarn",
-            "npm",
-            "pnpm"
-          ]
+          "enum": ["yarn", "npm", "pnpm"]
         },
         "packagerOptions": {
           "type": "object",
@@ -39532,7 +39449,7 @@
       ]
     },
     "provider": {
-      "$ref": "#/definitions/Aws.Provider"
+      "$ref": "#/definitions/AwsProvider"
     },
     "resources": {
       "oneOf": [
@@ -39548,9 +39465,9 @@
       ]
     },
     "service": {
-      "anyOf": [
+      "oneOf": [
         {
-          "$ref": "#/definitions/Aws.Service"
+          "$ref": "#/definitions/AwsService"
         },
         {
           "type": "string"
@@ -39564,5 +39481,6 @@
       "$ref": "plugin/step_functions.json#/Aws_StepFunctions"
     }
   },
-  "type": "object"
+  "type": "object",
+  "required": ["provider", "service"]
 }
