@@ -37359,7 +37359,7 @@
           "type": "string"
         },
         "runtime": {
-          "$ref": "#/definitions/Aws.Runtime"
+          "$ref": "#/definitions/AwsRuntime"
         },
         "tags": {
           "$ref": "#/definitions/Aws.Tags"
@@ -38311,10 +38311,11 @@
       },
       "type": "object"
     },
-    "Aws.Layer": {
+    "AwsLayer": {
       "type": "object",
       "properties": {
         "allowedAccounts": {
+          "description": "**Uncommenting this will give all AWS users access to this layer unconditionally.**",
           "type": "array",
           "items": {
             "type": "string"
@@ -38323,13 +38324,13 @@
         "compatibleArchitectures": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/AwsSupportedArchitecture"
           }
         },
         "compatibleRuntimes": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/AwsRuntime"
           }
         },
         "description": {
@@ -38339,46 +38340,32 @@
           "type": "string"
         },
         "name": {
+          "description": "Deployed Lambda layer name",
           "type": "string"
         },
         "package": {
-          "type": "object",
-          "properties": {
-            "artifact": {
-              "type": "string"
-            },
-            "exclude": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "include": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "patterns": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          }
+          "$ref": "#/definitions/AwsPackage"
         },
         "path": {
           "type": "string"
         },
         "retain": {
-          "type": "boolean"
+          "description": "If true, layer versions are not deleted as new ones are created",
+          "type": "boolean",
+          "default": false
         }
-      }
-    },
-    "Aws.Layers": {
-      "additionalProperties": {
-        "$ref": "#/definitions/Aws.Layer"
       },
+      "required": [
+        "path"
+      ],
+      "additionalProperties": false
+    },
+    "AwsLayers": {
+      "additionalProperties": {
+        "$ref": "#/definitions/AwsLayer"
+      },
+      "description": "Configuration to deploy layers using serverless framework, https://www.serverless.com/framework/docs/providers/aws/guide/layers",
+      "maxProperties": 5,
       "type": "object"
     },
     "Aws.Logs": {
@@ -38613,7 +38600,7 @@
       },
       "type": "object"
     },
-    "Aws.Runtime": {
+    "AwsRuntime": {
       "type": "string",
       "enum": [
         "nodejs18.x",
@@ -38635,6 +38622,12 @@
         "provided"
       ],
       "description": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+    },
+    "AwsSupportedArchitecture": {
+      "type": "string",
+      "enum": ["x86_64", "arm64"],
+      "description": "Processor architecture: 'x86_64' or 'arm64' via Graviton2 (default: x86_64)",
+      "default": "x86_64"
     },
     "AwsProvider": {
       "oneOf": [
@@ -38790,7 +38783,7 @@
               "$ref": "#/definitions/Aws.RollbackConfiguration"
             },
             "runtime": {
-              "$ref": "#/definitions/Aws.Runtime"
+              "$ref": "#/definitions/AwsRuntime"
             },
             "stackName": {
               "type": "string"
@@ -38830,9 +38823,7 @@
               "type": "boolean"
             },
             "architecture": {
-              "type": "string",
-              "enum": ["x86_64", "arm64"],
-              "description": "Processor architecture: 'x86_64' or 'arm64' via Graviton2 (default: x86_64)"
+              "$ref": "#/definitions/AwsSupportedArchitecture"
             },
             "vpc": {
               "$ref": "#/definitions/Aws.Vpc"
@@ -39325,7 +39316,7 @@
       "$ref": "#/definitions/AwsFunctions"
     },
     "layers": {
-      "$ref": "#/definitions/Aws.Layers"
+      "$ref": "#/definitions/AwsLayers"
     },
     "org": {
       "type": "string"
