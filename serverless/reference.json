@@ -37846,14 +37846,7 @@
               "$ref": "#/definitions/AwsHttpAuthorizer"
             },
             "cors": {
-              "anyOf": [
-                {
-                  "$ref": "#/definitions/Aws.HttpCors"
-                },
-                {
-                  "type": "boolean"
-                }
-              ]
+              "$ref": "components/apiGateway.v1.json#/AwsHttpCors"
             },
             "method": {
               "type": "string"
@@ -38093,46 +38086,6 @@
           "additionalProperties": false
         }
       ]
-    },
-    "Aws.HttpCors": {
-      "properties": {
-        "allowCredentials": {
-          "type": "boolean"
-        },
-        "cacheControl": {
-          "type": "string"
-        },
-        "headers": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            {
-              "type": "string"
-            }
-          ]
-        },
-        "maxAge": {
-          "type": "number"
-        },
-        "origins": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            {
-              "type": "string"
-            }
-          ]
-        }
-      },
-      "type": "object"
     },
     "Aws.HttpApiCors": {
       "properties": {
