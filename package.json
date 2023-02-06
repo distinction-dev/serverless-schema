@@ -1,6 +1,6 @@
 {
   "name": "serverless-schema",
-  "version": "0.0.0-development",
+  "version": "1.11.0",
   "description": "Types collection for serverless framework configuration",
   "scripts": {
     "build": "rm -rf ./lib/ && tsc",
@@ -62,10 +62,16 @@
       "@semantic-release/release-notes-generator",
       "@semantic-release/npm",
       "@semantic-release/github",
-      ["@semantic-release/git", {
-        "assets": ["src/index.ts", "package.json"],
-        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
-      }]
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "src/index.ts",
+            "package.json"
+          ],
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ]
     ]
   },
   "publishConfig": {
