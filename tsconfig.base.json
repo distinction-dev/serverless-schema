@@ -14,5 +14,5 @@
     },
     "baseUrl": "."
   },
-  "include": ["src/**/*.ts", "tests/**/*.test.ts"]
+  "include": ["src/**/*.ts", "tests/**/*.test.ts", "utils/**/*.ts"]
 }

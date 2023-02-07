@@ -1,7 +1,7 @@
 # TS Frontend Template
 
-> Template repository for us to use to create TS based frontend packages
-
+> Repository containing typescript definitions for Serverless Configuration and Aws Cloudformation resources. and also a collection of utility classes
+>
 ## Install
 
 ```bash
