@@ -3,7 +3,7 @@
     "declaration": true,
     "sourceMap": true,
     "declarationMap": true,
-    "removeComments": false,
+    "removeComments": true,
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -12,8 +12,7 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "baseUrl": ".",
-    "outDir": "./lib"
+    "baseUrl": "."
   },
   "include": ["src/**/*.ts", "tests/**/*.test.ts"]
 }
