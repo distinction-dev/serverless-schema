@@ -1,6 +1,7 @@
 import { List } from "ts-toolbelt";
 import { FromSchema } from "json-schema-to-ts";
 import { OpenAPIV3 } from "openapi-types";
+import { APIGatewayProxyResult } from "aws-lambda";
 
 type PropIdToNameMapping = {
   header: "headers";
@@ -87,3 +88,56 @@ export type FromApiGatewayParameters<
   SimpleFromParameters<T, { required: true }>,
   SimpleFromParameters<T, { required?: false }>
 >;
+
+/**
+ * This type represents the allowed types for headers
+ */
+type AllowedHeaders = boolean | number | string;
+
+/**
+ * This function is just a wrapper that builds the response that api gateway wants
+ * TODO:- Probably might be worth adding the right type for allowed status codes
+ */
+export function respond(
+  statusCode: number,
+  response: Record<string, unknown>,
+  headers?: {
+    [header: string]: AllowedHeaders | AllowedHeaders[];
+  },
+  isBase64Encoded?: boolean
+): APIGatewayProxyResult {
+  const result: APIGatewayProxyResult = {
+    statusCode: statusCode,
+    body: JSON.stringify(response),
+  };
+  /**
+   * The next sections parses out single value and multi values headers from headers
+   * This makes it easy to send out the response
+   */
+  const singleValueHeaders: {
+    [header: string]: AllowedHeaders;
+  } = {};
+  const multiValueHeaders: {
+    [header: string]: AllowedHeaders[];
+  } = {};
+  if (headers) {
+    Object.keys(headers).forEach(header => {
+      const value = headers[header];
+      if (Array.isArray(value)) {
+        multiValueHeaders[header] = value;
+      } else {
+        singleValueHeaders[header] = value;
+      }
+    });
+  }
+  if (Object.keys(singleValueHeaders).length > 0) {
+    result.headers = singleValueHeaders;
+  }
+  if (Object.keys(multiValueHeaders).length > 0) {
+    result.multiValueHeaders = multiValueHeaders;
+  }
+  if (typeof isBase64Encoded === "boolean") {
+    result.isBase64Encoded = isBase64Encoded;
+  }
+  return result;
+}
