@@ -4,8 +4,8 @@ import { OpenAPIV3 } from "openapi-types";
 
 type PropIdToNameMapping = {
   header: "headers";
-  query: "queries";
-  path: "pathParams";
+  query: "queryStringParameters";
+  path: "pathParameters";
   cookie: "cookies";
 };
 
