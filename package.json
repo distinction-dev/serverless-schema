@@ -13,7 +13,7 @@
     "package": "serverless package"
   },
   "main": "./lib/cjs/index.js",
-  "types": "./lib/cjs/index.js",
+  "types": "./lib/cjs/types/index.d.ts",
   "files": [
     "lib/**/*"
   ],
