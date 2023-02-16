@@ -1,6 +1,6 @@
 {
   "name": "serverless-schema",
-  "version": "1.14.1",
+  "version": "1.14.2",
   "description": "Types collection for serverless framework configuration",
   "scripts": {
     "clean": "rm -rf ./lib/",
