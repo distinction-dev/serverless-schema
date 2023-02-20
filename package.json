@@ -10,7 +10,8 @@
     "semantic-release": "semantic-release",
     "type-check": "tsc --noEmit",
     "codegen": "json2ts -i serverless-reference/serverless/reference.json -o src/schema.ts --cwd serverless-reference/serverless",
-    "package": "serverless package"
+    "package": "serverless package",
+    "test": "mocha -r ts-node/register --timeout 999999 --colors ./tests/**/*.test.ts"
   },
   "main": "./lib/cjs/index.js",
   "types": "./lib/cjs/types/index.d.ts",
