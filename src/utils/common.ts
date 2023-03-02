@@ -27,3 +27,21 @@ export type Mutable<T> = {
 export type DeepMutable<T> = {
   -readonly [P in keyof T]: DeepMutable<T[P]>;
 };
+
+/**
+ * This is a no-op function used to reduce using type casting all the time
+ * Say you're using `as const` somewhere and you want to use this value,
+ * But the type doesn't allow readonly, you can use this function here
+ */
+export function getDeepMutable<T>(param: T): DeepMutable<T> {
+  return param as DeepMutable<T>;
+}
+
+/**
+ * This is a no-op function used to reduce using type casting all the time
+ * Say you're using `as const` somewhere and you want to use this value,
+ * But the type doesn't allow readonly, you can use this function here for making first level mutable
+ */
+export function geMutable<T>(param: T): Mutable<T> {
+  return param as Mutable<T>;
+}
