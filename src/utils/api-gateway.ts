@@ -1,62 +1,115 @@
-import { List } from "ts-toolbelt";
-import { FromSchema } from "json-schema-to-ts";
+import { FromSchema, JSONSchema } from "json-schema-to-ts";
 import { OpenAPIV3 } from "openapi-types";
 import { APIGatewayProxyResult } from "aws-lambda";
+import {
+  PositiveFilter,
+  WillSatisfy,
+  ValuesOf,
+  RevMapping,
+  DeepReadonly,
+  OptionalizedProps,
+} from "./common";
 
-type PropIdToNameMapping = {
+/**
+ * @private
+ * Map for defining API Gateway parameters's in prop to the prop name to be used in handler event
+ */
+type PropIdToSingularNameMapping = {
   header: "headers";
   query: "queryStringParameters";
   path: "pathParameters";
   cookie: "cookies";
 };
 
-type RevPropIdToNameMapping = {
-  [v in PropIdToNameMapping[keyof PropIdToNameMapping]]: NonNullable<
-    {
-      [k in keyof PropIdToNameMapping]: PropIdToNameMapping[k] extends v
-        ? k
-        : never;
-    }[keyof PropIdToNameMapping]
-  >;
+/**
+ * @private
+ * Map for defining API Gateway parameters's in prop to the prop name to be used for defining multi value properties
+ */
+type PropIdToMultiNameMapping = {
+  header: "multiHeaders";
+  query: "multiQueryStringParameters";
+  path: "multiPathParameters";
+  cookie: "multiCookies";
 };
 
-type ToPropName<S extends string> = S extends keyof PropIdToNameMapping
-  ? PropIdToNameMapping[S]
-  : string;
-type ToPropId<S extends string> = S extends keyof RevPropIdToNameMapping
-  ? RevPropIdToNameMapping[S]
-  : string;
-type HandleParamModel<T extends OpenAPIV3.ParameterObject> = FromSchema<
-  Readonly<NonNullable<T["schema"]>>
->;
+/**
+ * @private
+ * Helper for getting propId (the API Gateway params "in" prop) to prop name in handler event
+ */
+type ToPropName<
+  Map extends Record<string, string>,
+  S extends string
+> = S extends keyof Map ? Map[S] : string;
 
-type ResPartial<T extends object> = Partial<{
-  [k in keyof T]: T[k] extends object ? ResPartial<T[k]> : T[k];
+/**
+ * @private
+ * Helper for getting prop id from prop name
+ */
+type ToPropId<
+  Map extends Record<string, string>,
+  S extends string
+> = S extends keyof RevMapping<Map> ? RevMapping<Map>[S] : string;
+
+/**
+ * @private
+ * Helper for defining prop value type using given schema for that prop, and control props
+ */
+type HandleParamModel<
+  T extends OpenAPIV3.ParameterObject,
+  AddArrayTypes extends boolean
+> = AddArrayTypes extends true
+  ? NonNullable<FromSchema<Readonly<NonNullable<T["schema"]>>>>[]
+  : FromSchema<Readonly<NonNullable<T["schema"]>>>;
+
+/**
+ * @private
+ * Helper for making current object props and one more level child props to be Partial
+ */
+type TwoLevelPartial<T extends object> = Partial<{
+  [k in keyof T]: T[k] extends object ? Partial<T[k]> : T[k];
 }>;
 
+/**
+ * @private
+ * Helper for parsing model type given parameters type and control props
+ *
+ * Notes:
+ *  - How this works:
+ *    - First we loop over the each param ids
+ *    - Here to do the transformation from prop id to prop name, we use the `ToPropName` and `ToPropId` helper defined above for this transformation (like `path` to `pathParameters`)
+ *    - And for each prop id we filter and resolve the param definitions having that param id (like `{ in: "header", ... }`)
+ *    - Then we get the names of each params in this sublist and resolve the exact param with using param id and name
+ *    - After we have the param element type, we use it and parse its schema using FromSchema with the `HandleParamModel` helper
+ */
 type SimpleFromParameters<
-  T extends OpenAPIV3.ParameterObject[] | Readonly<OpenAPIV3.ParameterObject[]>,
-  extraProps
+  PropMap extends Record<string, string>,
+  T extends
+    | OpenAPIV3.ParameterObject[]
+    | DeepReadonly<OpenAPIV3.ParameterObject[]>,
+  extraProps,
+  AddArrayTypes extends boolean
 > = {
-  [header in ToPropName<T[number]["in"]>]: {
-    [name in List.Filter<
+  [header in ToPropName<PropMap, T[number]["in"]>]: {
+    [name in PositiveFilter<
       T,
-      List.Filter<
-        T,
-        { in: ToPropId<header> } & extraProps,
-        "extends->"
-      >[number],
+      { in: ToPropId<PropMap, header> } & extraProps,
       "extends->"
     >[number]["name"]]: HandleParamModel<
-      List.Filter<
+      PositiveFilter<
         T,
-        List.Filter<T, { name: name } & extraProps, "extends->">[number],
+        { in: ToPropId<PropMap, header>; name: name } & extraProps,
         "extends->"
-      >[number]
+      >[number],
+      AddArrayTypes
     >;
   };
 };
 
+/**
+ * @private
+ * This helper does nothing to define or change the type.
+ * Just makes it so typescript tools will show our from param type more readably.
+ */
 type NoOpForReadability<T extends object> = {
   [k in keyof T]: T[k] extends object
     ? {
@@ -65,28 +118,72 @@ type NoOpForReadability<T extends object> = {
     : T[k];
 };
 
-type OptionalizedProps<
-  T extends object,
-  props extends keyof T
-> = NoOpForReadability<
-  Pick<T, Exclude<keyof T, props>> & Partial<Pick<T, props>>
->;
-
+/**
+ * @private
+ * Helper for defining required and required types for model from API Gateway params
+ */
 type OptionalizeHelper<
   RequiredProps extends object,
   NonRequiredProps extends object
-> = OptionalizedProps<
-  NoOpForReadability<RequiredProps & ResPartial<NonRequiredProps>>,
-  {
-    [k in keyof RequiredProps]: object extends RequiredProps[k] ? k : never;
-  }[keyof RequiredProps]
+> = NoOpForReadability<
+  OptionalizedProps<
+    NoOpForReadability<RequiredProps & TwoLevelPartial<NonRequiredProps>>,
+    {
+      [k in keyof RequiredProps]: object extends RequiredProps[k] ? k : never;
+    }[keyof RequiredProps]
+  >
 >;
 
-export type FromApiGatewayParameters<
-  T extends OpenAPIV3.ParameterObject[] | Readonly<OpenAPIV3.ParameterObject[]>
+/**
+ * Type util to get Event model from API Gateway params definition
+ */
+export type FromOpenAPIParameters<
+  T extends
+    | OpenAPIV3.ParameterObject[]
+    | DeepReadonly<OpenAPIV3.ParameterObject[]>
 > = OptionalizeHelper<
-  SimpleFromParameters<T, { required: true }>,
-  SimpleFromParameters<T, { required?: false }>
+  SimpleFromParameters<
+    PropIdToSingularNameMapping,
+    T,
+    { required: true },
+    false
+  > &
+    SimpleFromParameters<PropIdToMultiNameMapping, T, { required: true }, true>,
+  SimpleFromParameters<
+    PropIdToSingularNameMapping,
+    T,
+    { required?: false },
+    false
+  > &
+    SimpleFromParameters<
+      PropIdToMultiNameMapping,
+      T,
+      { required?: false },
+      true
+    >
+>;
+
+/**
+ * Type util to get Event model from API Gateway operation definition
+ */
+export type FromOpenAPIOperation<
+  T extends OpenAPIV3.OperationObject | DeepReadonly<OpenAPIV3.OperationObject>
+> = NoOpForReadability<
+  FromOpenAPIParameters<
+    NonNullable<T["parameters"]> & OpenAPIV3.ParameterObject[]
+  > &
+    FromSchema<
+      WillSatisfy<
+        ValuesOf<
+          WillSatisfy<
+            T["requestBody"],
+            | OpenAPIV3.RequestBodyObject
+            | DeepReadonly<OpenAPIV3.RequestBodyObject>
+          >["content"]
+        >["schema"],
+        JSONSchema
+      >
+    >
 >;
 
 /**
