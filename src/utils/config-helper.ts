@@ -2,6 +2,12 @@ import { DeepReadonly } from "json-schema-to-ts/lib/types/type-utils/readonly";
 import { OpenAPIV3 } from "openapi-types";
 import { DeepMutable, getDeepMutable } from "./common";
 
+/**
+ * Combine paths array in single open api paths object.
+ *
+ * This will be help fun when paths are defined each endpoint for modularity,
+ * this can be used to combine all these separate paths in one.
+ */
 export const getCombinePaths = (
   paths: NonNullable<OpenAPIV3.Document["paths"]>[]
 ): NonNullable<OpenAPIV3.Document["paths"]> =>
@@ -18,6 +24,9 @@ export const getCombinePaths = (
     {}
   );
 
+/**
+ * Will help in creating paths object form path, method and operation schema.
+ */
 export const getOpenAPIPathsObject = <
   Path extends string,
   Method extends OpenAPIV3.HttpMethods,
@@ -38,6 +47,9 @@ export const getOpenAPIPathsObject = <
   return schema as DeepMutable<typeof schema>;
 };
 
+/**
+ * Will help reducing boilerplate for defining Lambda handler.
+ */
 export const getAWSFunctionHandler = <
   Path extends string,
   Method extends OpenAPIV3.HttpMethods,
