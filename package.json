@@ -10,7 +10,8 @@
     "semantic-release": "semantic-release",
     "type-check": "tsc --noEmit",
     "codegen": "json2ts -i serverless-reference/serverless/reference.json -o src/schema.ts --cwd serverless-reference/serverless",
-    "package": "serverless package"
+    "package": "serverless package",
+    "docs": "docsify serve docs"
   },
   "main": "./lib/cjs/index.js",
   "types": "./lib/cjs/types/index.d.ts",
@@ -59,6 +60,7 @@
     "chai": "^4.3.7",
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
+    "docsify-cli": "^4.4.4",
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-node": "^11.1.0",

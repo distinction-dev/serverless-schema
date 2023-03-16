@@ -1,7 +1,5 @@
 {
-  "yaml.schemas": {
-    "./serverless/reference.json": "serverless.yml"
-  },
+  "yaml.schemas": {},
   "search.exclude": {
     "**/node_modules": true,
     "**/bower_components": true,
