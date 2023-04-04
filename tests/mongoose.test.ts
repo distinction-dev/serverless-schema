@@ -1,6 +1,9 @@
 import "mocha";
-import { jsonSchemaToMongooseSchema } from "../src/utils/mongoose";
+import { jsonSchemaToMongooseSchemaDefinition } from "../src/utils/mongoose";
 import { getDeepMutable } from "../src/utils/common";
+import { expect, assert } from "chai";
+import { Schema, SchemaDefinition, SchemaTypeOptions } from "mongoose";
+import { FromSchema } from "json-schema-to-ts";
 
 describe("Mongoose Test Suite", () => {
   it("Will generate Schema properly", () => {
@@ -14,46 +17,24 @@ describe("Mongoose Test Suite", () => {
           type: "string",
           format: "date-time",
         },
-        status: {
-          type: "string",
-          enum: [
-            "Uploaded",
-            "Inprogress",
-            "Finished",
-            "Invalid",
-            "Aborted",
-            "Cancelled",
-          ],
-          default: "Uploaded",
-        },
-        downloadUrl: {
-          type: "string",
-          pattern: "(http|https)://[a-zA-Z0-9./_-]+.csv",
-        },
-        progress: {
-          type: "object",
-          properties: {
-            total: {
-              type: "number",
-            },
-            finished: {
-              type: "number",
-            },
-          },
-          required: ["total"],
-        },
       },
-      required: ["id", "createdAt", "status", "progress"],
+      additionalProperties: false,
+      required: ["_id", "createdAt"],
     } as const;
-    const mongooseSchema = jsonSchemaToMongooseSchema(
+    const mongooseSchemaDefinition = jsonSchemaToMongooseSchemaDefinition(
       getDeepMutable(JobModel),
       {
         _id: {
           index: true,
         },
-        downloadUrl: {},
       }
-    );
-    console.log(mongooseSchema);
+    ) as SchemaDefinition<FromSchema<typeof JobModel>>;
+    assert.isNotEmpty(mongooseSchemaDefinition.createdAt);
+    assert.isNotEmpty(mongooseSchemaDefinition._id);
+    if (mongooseSchemaDefinition.createdAt) {
+      const createdAtSchema = mongooseSchemaDefinition.createdAt as any;
+      expect(typeof createdAtSchema.type).to.equal("function");
+      expect(createdAtSchema.type.name).to.equal("Date");
+    }
   });
 });
