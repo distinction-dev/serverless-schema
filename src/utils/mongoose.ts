@@ -74,6 +74,10 @@ function getSchemaForDefinition(
           if (definition.maximum) {
             res.max = new Date(definition.maximum);
           }
+        } else if (definition.format === "binary") {
+          res = {
+            type: Buffer,
+          };
         } else {
           res = {
             type: String,
