@@ -110,9 +110,12 @@ function getSchemaForDefinition(
           type: Array,
         };
         if (definition.items) {
-          if (typeof definition.items !== "boolean") {
+          if (
+            typeof definition.items !== "boolean" &&
+            !Array.isArray(definition.items)
+          ) {
             res = {
-              type: [],
+              type: [getSchemaForDefinition(definition.items)],
             };
           }
         }
