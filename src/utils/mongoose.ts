@@ -44,6 +44,7 @@ function getSchemaForDefinition(
     };
     switch (definition.type) {
       case "number":
+      case "integer":
         res = {
           type: Number,
         };
