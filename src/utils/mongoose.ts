@@ -7,7 +7,7 @@ import {
 } from "json-schema";
 import { SchemaDefinition, SchemaDefinitionProperty } from "mongoose";
 
-export function jsonSchemaToMongooseSchema(
+export function jsonSchemaToMongooseSchemaDefinition(
   schema: JSONSchema7,
   schemaExtensions?: { [path: string]: Partial<SchemaDefinitionProperty> }
 ): SchemaDefinition {
@@ -101,7 +101,7 @@ function getSchemaForDefinition(
           type: Map,
         };
         if (definition.properties) {
-          res.of = jsonSchemaToMongooseSchema(definition);
+          res.of = jsonSchemaToMongooseSchemaDefinition(definition);
         }
         break;
       case "array":
