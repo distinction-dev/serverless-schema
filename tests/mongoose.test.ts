@@ -243,6 +243,89 @@ describe("Mongoose Test Suite", () => {
     assert.ok(!errorOne?.errors);
   });
 
+  it("Will generate Schema with sub schema type", () => {
+    const JobJSONSchema = {
+      type: "object",
+      properties: {
+        details: {
+          type: "object",
+          properties: {
+            prop1: {
+              type: "string",
+            },
+            prop2: {
+              type: "number",
+            },
+          },
+          additionalProperties: false,
+        },
+      },
+      required: ["details"],
+      additionalProperties: false,
+    } as const;
+    const mongooseSchemaDefinition = jsonSchemaToMongooseSchemaDefinition(
+      getDeepMutable(JobJSONSchema)
+    ) as SchemaDefinition<FromSchema<typeof JobJSONSchema>>;
+
+    const JobSchema = new Schema(mongooseSchemaDefinition);
+
+    expect(
+      JobSchema.path("details") instanceof mongoose.Schema.Types.Subdocument
+    ).to.be.true;
+    const JobSubSchema = mongoose.model<FromSchema<typeof JobJSONSchema>>(
+      "JobSubSchema",
+      JobSchema
+    );
+
+    // Validate sub document
+    const jobOne = new JobSubSchema({
+      details: {
+        prop1: "Hello World",
+        prop2: 12,
+      },
+    }); // valid date
+    const errorOne = jobOne.validateSync();
+    assert.ok(!errorOne?.errors);
+  });
+
+  it("Will generate Schema with Map Type", () => {
+    const JobJSONSchema = {
+      type: "object",
+      properties: {
+        details: {
+          type: "object",
+          additionalProperties: {
+            type: "string",
+          },
+        },
+      },
+      required: ["details"],
+      additionalProperties: false,
+    } as const;
+    const mongooseSchemaDefinition = jsonSchemaToMongooseSchemaDefinition(
+      getDeepMutable(JobJSONSchema)
+    ) as SchemaDefinition<FromSchema<typeof JobJSONSchema>>;
+
+    const JobSchema = new Schema(mongooseSchemaDefinition);
+
+    expect(JobSchema.path("details") instanceof mongoose.Schema.Types.Map).to.be
+      .true;
+    const JobMapSchema = mongoose.model<FromSchema<typeof JobJSONSchema>>(
+      "JobMapSchema",
+      JobSchema
+    );
+
+    // Validate sub document
+    const jobOne = new JobMapSchema({
+      details: {
+        prop1: "Hello World",
+        prop2: 12,
+      },
+    }); // valid date
+    const errorOne = jobOne.validateSync();
+    assert.ok(!errorOne?.errors);
+  });
+
   it("Will generate complex Schema", () => {
     const JobProgressModel = {
       type: "object",
@@ -289,8 +372,9 @@ describe("Mongoose Test Suite", () => {
     const JobSchema = new Schema(mongooseSchemaDefinition);
 
     // 'progress' should be type of Map
-    expect(JobSchema.path("progress") instanceof mongoose.Schema.Types.Map).to
-      .be.true;
+    expect(
+      JobSchema.path("progress") instanceof mongoose.Schema.Types.Subdocument
+    ).to.be.true;
 
     // Check 'progress' is the required field
     expect(JobSchema.path("progress")?.isRequired || false).to.equal(true);
@@ -300,14 +384,15 @@ describe("Mongoose Test Suite", () => {
       new Schema(mongooseSchemaDefinition)
     );
 
+    const progress = {
+      totalItems: 30,
+      finishedItems: 10,
+    };
     const jobOne = new Job({
       downloadUrl: "https://example.csv",
       createdAt: new Date(),
       status: "Cancelled",
-      progress: {
-        totalItems: 30,
-        finishedItems: 10,
-      },
+      progress: progress,
     });
     const error = jobOne.validateSync();
     assert.ok(!error?.errors);
