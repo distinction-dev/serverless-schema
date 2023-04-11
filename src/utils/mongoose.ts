@@ -5,7 +5,7 @@ import {
   JSONSchema7Object,
   JSONSchema7Type,
 } from "json-schema";
-import { SchemaDefinition, SchemaDefinitionProperty } from "mongoose";
+import { Schema, SchemaDefinition, SchemaDefinitionProperty } from "mongoose";
 
 export function jsonSchemaToMongooseSchemaDefinition(
   schema: JSONSchema7,
@@ -97,11 +97,58 @@ function getSchemaForDefinition(
         }
         break;
       case "object":
-        res = {
-          type: Map,
-        };
         if (definition.properties) {
-          res.of = jsonSchemaToMongooseSchemaDefinition(definition);
+          res = {
+            type: {
+              ...jsonSchemaToMongooseSchemaDefinition(definition),
+              _id: false,
+            },
+          };
+        } else if (
+          definition.patternProperties ||
+          definition.additionalProperties ||
+          !definition.properties
+        ) {
+          res = {};
+          if (
+            definition.additionalProperties &&
+            typeof definition.additionalProperties !== "boolean"
+          ) {
+            res = {
+              type: Map,
+              of: {
+                ...jsonSchemaToMongooseSchemaDefinition(
+                  definition.additionalProperties
+                ),
+              },
+            };
+          } else if (definition.patternProperties) {
+            if (Object.keys(definition.patternProperties).length > 1) {
+              throw new Error(
+                "Mongoose doesn't support two different types of schema at the same document level"
+              );
+            }
+            const firstKey =
+              definition.patternProperties[
+                Object.keys(definition.patternProperties)[0]
+              ];
+            if (typeof firstKey === "boolean") {
+              res = {
+                type: Schema.Types.Mixed,
+              };
+            } else {
+              res = {
+                type: Map,
+                of: {
+                  ...jsonSchemaToMongooseSchemaDefinition(firstKey),
+                },
+              };
+            }
+          } else {
+            res = {
+              type: Schema.Types.Mixed,
+            };
+          }
         }
         break;
       case "array":
